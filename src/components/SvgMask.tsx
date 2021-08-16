@@ -17,6 +17,10 @@ import { AnimatedSvgPath } from './AnimatedPath'
 
 const screenDimensions = Dimensions.get('screen')
 
+function getWrapper(dismissOnPress: boolean): any {
+  return dismissOnPress ? TouchableWithoutFeedback : View
+}
+
 interface Props {
   size: ValueXY
   position: ValueXY
@@ -27,6 +31,7 @@ interface Props {
   maskOffset?: number
   borderRadius?: number
   currentStep?: IStep
+  stop(): void
   easing?(value: number): number
 }
 
@@ -178,7 +183,7 @@ export class SvgMask extends Component<Props, State> {
       return null
     }
     const { dismissOnPress, stop } = this.props
-    const Wrapper = dismissOnPress ? TouchableWithoutFeedback : View
+    const Wrapper = getWrapper(dismissOnPress)
 
     return (
       <Wrapper
